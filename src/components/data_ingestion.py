@@ -6,6 +6,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join('artifacts', 'train.csv')
@@ -46,6 +48,8 @@ if __name__ == "__main__":
     logging.info("Starting the Data Ingestion process")
     try:
         obj = DataIngestion()
-        obj.initiate_data_ingestion()
+        train_data,test_data=obj.initiate_data_ingestion()
+        data_transformation = DataTransformation()
+        data_transformation.initiate_data_transformation(train_data,test_data)
     except Exception as e:
         logging.error(f"Error during data ingestion: {e}")
